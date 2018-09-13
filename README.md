@@ -16,7 +16,8 @@ This DLL was implemented in a Delphi Project, below a example and use.
 _TPINBlockDLL   = function(PIN, PAN, Llave3DES : PChar; out PINBlock : Pointer): Integer ; stdcall;
 
 _F_PINBlockDLL : _TPINBlockDLL  ; 
-_Handle_: THandle
+_Handle_: THandle;
+PIN, PAN, Llave3DES : string;
 
 ```
 ## Cargar DLL y metodo /Load DLL and function 
