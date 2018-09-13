@@ -18,6 +18,8 @@ _TPINBlockDLL   = function(PIN, PAN, Llave3DES : PChar; out PINBlock : Pointer):
 _F_PINBlockDLL : _TPINBlockDLL  ; 
 _Handle_: THandle;
 PIN, PAN, Llave3DES : string;
+p : Pointer;
+i : integer;
 
 ```
 ## Cargar DLL y metodo /Load DLL and function 
