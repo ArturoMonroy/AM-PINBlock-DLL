@@ -7,23 +7,28 @@ Esta DLL la use en un proyecto en Delphi, abajo un ejemplo de carga y ejecucion
 
 This DLL was implemented in a Delphi Project, below a example and use.
 
-=== Delphi example pseudocode
+>Por supuesto la DLL puede usarse con cualquier lenguaje/Of course you can use with any language 
 
-_Handle_: THandle
- 
+### Delphi example
+
+## vars and types
+``` 
 _TPINBlockDLL   = function(PIN, PAN, Llave3DES : PChar; out PINBlock : Pointer): Integer ; stdcall;
 
 _F_PINBlockDLL : _TPINBlockDLL  ; 
+_Handle_: THandle
 
-----Cargar DLL y metodo /Load DLL and function 
- 
+```
+## Cargar DLL y metodo /Load DLL and function 
+``` 
 _Handle_:= LoadLibrary('PinBlockDLL.dll');
   if _Handle_ <> 0 then
-    _F_PINBlockDLL:= GetProcAddress(THSM._Handle_, 'PINBlock');
-
+    _F_PINBlockDLL:= GetProcAddress(_Handle_, 'PINBlock');
+    
+```
  
---- Ejecutar metodo/ Gets PIN Block
- 
+### Ejecutar metodo/ Gets PIN Block
+``` 
 if @_F_PINBlockDLL <> nil then begin
       i := _F_PINBlockDLL( PChar(PIN), PChar(PAN), PChar(Llave3DES), p);
       if i > 0 then begin
@@ -31,3 +36,4 @@ if @_F_PINBlockDLL <> nil then begin
         SetLength(PIN_BLOCK, i);
       end;
       Result := Length(PIN_BLOCK) = 16;
+```
