@@ -36,12 +36,11 @@ namespace PinBlockDLL
         }
 
         [DllExport("PINBlock", CallingConvention = CallingConvention.Cdecl)]
-        public static int PINBlock(IntPtr PIN_P, IntPtr PAN_P, IntPtr llave_P, out IntPtr PINBlock_P)
+        public static int PINBlock(IntPtr PIN_P, IntPtr PAN_P, IntPtr llave_P, [MarshalAs(UnmanagedType.BStr)] out string  PINBlock )
         {
 
-            int result = -1;
-            string resultPINBlock;
-            PINBlock_P = Marshal.AllocHGlobal(1024);
+            int ok = -1;
+            PINBlock = "";
             try
             {
                 string XOR_PIN_PAN = "";
@@ -54,19 +53,16 @@ namespace PinBlockDLL
                 XOR_PIN_PAN = XOR_PIN_PAN.Replace(":", "");
 
                 //1234 4766840000704997 AAAABBBBCCCCDDDDEEEEFFFFAAAABBBB -> 501E9A300E5046B4
-                resultPINBlock = getPINBlock(XOR_PIN_PAN, llave);
+                PINBlock = getPINBlock(XOR_PIN_PAN, llave);
 
-                result = resultPINBlock.Length;
-                
+                ok = 0;                
             }
             catch (Exception e)
             {
-                resultPINBlock = e.Message;            
+                PINBlock = string.Format("{0}:{1}", e.Message, e.InnerException.Message);            
             }
-            
-            Marshal.Copy(resultPINBlock.ToCharArray(), 0, PINBlock_P, resultPINBlock.Length);                
-
-            return result;
+                        
+            return ok;
             
         }
 
