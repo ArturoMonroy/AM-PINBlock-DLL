@@ -13,12 +13,12 @@ This DLL was implemented in a Delphi Project, below a example and use.
 
 ## vars and types
 ``` 
-_TPINBlockDLL   = function(PIN, PAN, Llave3DES : PChar; out PINBlock : Pointer): Integer ; stdcall;
+_TPINBlockDLL   = function(PIN, PAN, Llave3DES : PChar; out PINBlock : WideString): Integer ; stdcall;
 
 _F_PINBlockDLL : _TPINBlockDLL  ; 
 _Handle_: THandle;
 PIN, PAN, Llave3DES : string;
-p : Pointer;
+PINBlock : WideString;
 i : integer;
 
 ```
@@ -33,10 +33,6 @@ _Handle_:= LoadLibrary('PinBlockDLL.dll');
 ### Ejecutar metodo/ Gets PIN Block
 ``` 
 if @_F_PINBlockDLL <> nil then begin
-      i := _F_PINBlockDLL( PChar(PIN), PChar(PAN), PChar(Llave3DES), p);
-      if i > 0 then begin
-        PIN_BLOCK := PChar(p);
-        SetLength(PIN_BLOCK, i);
-      end;
-      Result := Length(PIN_BLOCK) = 16;
+      i := _F_PINBlockDLL( PChar(PIN), PChar(PAN), PChar(Llave3DES), {out} PINBlock);
+      Result := i = 0; //0 OK -1 Error
 ```
